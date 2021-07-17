@@ -23,7 +23,16 @@ namespace CarRental.Api.Controllers
         [HttpGet]
         public List<CarModel> Find(string manufacturer)
         {
-            return new List<CarModel>();
+            using (var db = new CarRentalContext())
+            {
+                return db.Cars.Where(x => string.Equals(x.Manufacturer, manufacturer, StringComparison.InvariantCultureIgnoreCase))
+                    .Select(x => new CarModel
+                    {
+                        Id = x.Id,
+                        Name = x.CarName,
+                        Availability = db.Rentals.All(r => r.CarId != x.Id)
+                    }).ToList();
+            };
         }
 
         public List<CarModel> Get(int pageId = 1, bool ascending = true)
