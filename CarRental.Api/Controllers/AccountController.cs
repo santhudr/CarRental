@@ -10,14 +10,14 @@ namespace CarRental.Api.Controllers
     {
         [HttpPost]
         [AllowAnonymous]
-        public string Register(User user)
+        public string Register(UserModel user)
         {
             return "SUCCESS";
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public string Login(User user)
+        public string Login(UserModel user)
         {
             return "SUCCESS";
         }
