@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Cars]
 (
-	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [CategoryId] UNIQUEIDENTIFIER NOT NULL, 
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [CategoryId] INT NOT NULL, 
     [Manufacturer] VARCHAR(50) NOT NULL, 
     [CarName] VARCHAR(50) NOT NULL, 
     [PricePerDay] VARCHAR(50) NOT NULL, 

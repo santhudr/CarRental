@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Categories]
 (
-	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [CategoryName] VARBINARY(50) NOT NULL
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [CategoryName] VARCHAR(50) NOT NULL
 )

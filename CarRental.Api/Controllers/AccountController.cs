@@ -1,17 +1,12 @@
 ﻿using CarRental.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CarRental.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    public class CarRentalController : ControllerBase
+    public class AccountController : ControllerBase
     {
         [HttpPost]
         [AllowAnonymous]
@@ -26,13 +21,5 @@ namespace CarRental.Api.Controllers
         {
             return "SUCCESS";
         }
-
-        [AllowAnonymous]
-        public List<string> Categories()
-        {
-            return new List<string>();
-        }
-
-        public List<>
     }
 }
