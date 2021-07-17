@@ -11,9 +11,9 @@ namespace CarRental.Api.Service
         public Task<UserModel> Authenticate(string username, string password)
         {
             UserModel response = null;
-            using (var context = new CarRentalContext())
+            using (var db = new CarRentalContext())
             {
-                var user = context.Users.Where(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase)
+                var user = db.Users.Where(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase)
                 && string.Equals(x.Password, password, StringComparison.InvariantCulture)).FirstOrDefault();
 
                 if (user != null)
@@ -23,6 +23,30 @@ namespace CarRental.Api.Service
             }
 
             return Task.FromResult(response);
+        }
+
+        public bool Register(UserModel user)
+        {
+            try
+            {
+                var userEntity = new User
+                {
+                    UserName = user.UserName,
+                    Password = user.Password
+                };
+
+                using (var db = new CarRentalContext())
+                {
+                    db.Users.Add(userEntity);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
