@@ -1,10 +1,10 @@
-﻿using CarRental.Api.Models;
+﻿using CarRental.Api.Database;
+using CarRental.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CarRental.Api.Controllers
 {
@@ -14,23 +14,26 @@ namespace CarRental.Api.Controllers
         [HttpGet]
         public List<string> Categories()
         {
-            return new List<string>();
+            using (var db = new CarRentalContext())
+            {
+                return db.Categories.Select(x => x.CategoryName).ToList();
+            }
         }
 
         [HttpGet]
-        public List<Car> Find(string manufacturer)
+        public List<CarModel> Find(string manufacturer)
         {
-            return new List<Car>();
+            return new List<CarModel>();
         }
 
-        public List<Car> Get(int pageId = 1, bool ascending = true)
+        public List<CarModel> Get(int pageId = 1, bool ascending = true)
         {
-            return new List<Car>();
+            return new List<CarModel>();
         }
 
-        public List<Car> Get(string name)
+        public List<CarModel> Get(string name)
         {
-            return new List<Car>();
+            return new List<CarModel>();
         }
     }
 }

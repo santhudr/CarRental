@@ -23,12 +23,5 @@ namespace CarRental.Api.Controllers
            var success = this.userService.Register(user);
             return success ? "Registration Successful": "Registration Failed";
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public string Login(UserModel user)
-        {
-            return "SUCCESS";
-        }
     }
 }

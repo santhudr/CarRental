@@ -5,7 +5,7 @@ namespace CarRental.Api.Controllers
 {
     public class RentController : Controller
     {
-        public string Post(Rent rent)
+        public string Post(RentModel rent)
         {
             return "SUCCESS";
         }
