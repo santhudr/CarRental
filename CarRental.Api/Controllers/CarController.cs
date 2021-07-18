@@ -52,7 +52,16 @@ namespace CarRental.Api.Controllers
 
         public List<CarModel> Get(string name)
         {
-            return new List<CarModel>();
+            using (var db = new CarRentalContext())
+            {
+                return db.Cars.Where(x => x.CarName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                    .Select(x => new CarModel
+                    {
+                        Id = x.Id,
+                        Name = x.CarName,
+                        Availability = db.Rentals.All(r => r.CarId != x.Id)
+                    }).ToList();
+            };
         }
     }
 }
