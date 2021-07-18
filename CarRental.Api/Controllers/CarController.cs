@@ -37,7 +37,17 @@ namespace CarRental.Api.Controllers
 
         public List<CarModel> Get(int pageId = 1, bool ascending = true)
         {
-            return new List<CarModel>();
+            using (var db = new CarRentalContext())
+            {
+                var sortedList = ascending ? db.Cars.OrderBy(x => x.PricePerDay) : db.Cars.OrderByDescending(x => x.PricePerDay);
+                return sortedList.Skip(5 * (pageId - 1)).TakeLast(5)
+                    .Select(x => new CarModel
+                    {
+                        Id = x.Id,
+                        Name = x.CarName,
+                        Availability = db.Rentals.All(r => r.CarId != x.Id)
+                    }).ToList();
+            }
         }
 
         public List<CarModel> Get(string name)
