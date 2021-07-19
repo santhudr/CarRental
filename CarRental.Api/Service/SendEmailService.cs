@@ -23,7 +23,7 @@ namespace CarRental.Api.Service
                 var client = new SendGridClient("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");
                 var from = new EmailAddress("development@youralcove.com", "Your Alcove");
                 var subject = "Your car rental contract is expiring soon";
-                var to = new EmailAddress("santhudr@gmail.com", "Darryn Hart");
+                var to = new EmailAddress("darryn.hart@youralcove.com", "Darryn Hart");
                 var htmlContent = "Hi {0},<br/>Your contract is expiring at {1}. Please return the car before the expiry time.<br/>Your Alcove.";
 
                 foreach (var rental in expiringContracts)
