@@ -8,10 +8,12 @@ using System.Linq;
 
 namespace CarRental.Api.Controllers
 {
+    [ApiController]
     [AllowAnonymous]
-    public class CarController : Controller
+    public class CarController : ControllerBase
     {
         [HttpGet]
+        [Route("Car/Categories")]
         public List<string> Categories()
         {
             using (var db = new CarRentalContext())
@@ -21,26 +23,34 @@ namespace CarRental.Api.Controllers
         }
 
         [HttpGet]
+        [Route("Car/Find")]
         public List<CarModel> Find(string manufacturer)
         {
-            using (var db = new CarRentalContext())
+            if (!string.IsNullOrWhiteSpace(manufacturer))
             {
-                return db.Cars.Where(x => string.Equals(x.Manufacturer, manufacturer, StringComparison.InvariantCultureIgnoreCase))
-                    .Select(x => new CarModel
-                    {
-                        Id = x.Id,
-                        Name = x.CarName,
-                        Availability = db.Rentals.All(r => r.CarId != x.Id)
-                    }).ToList();
-            };
+                using (var db = new CarRentalContext())
+                {
+                    return db.Cars.Where(x => x.Manufacturer.ToLower() == manufacturer.ToLower())
+                        .Select(x => new CarModel
+                        {
+                            Id = x.Id,
+                            Name = x.CarName,
+                            Availability = db.Rentals.All(r => r.CarId != x.Id)
+                        }).ToList();
+                };
+            }
+
+            return new List<CarModel>();
         }
 
+        [HttpGet]
+        [Route("Car")]
         public List<CarModel> Get(int pageId = 1, bool ascending = true)
         {
             using (var db = new CarRentalContext())
             {
                 var sortedList = ascending ? db.Cars.OrderBy(x => x.PricePerDay) : db.Cars.OrderByDescending(x => x.PricePerDay);
-                return sortedList.Skip(5 * (pageId - 1)).TakeLast(5)
+                return sortedList.ToList().Skip(5 * (pageId - 1)).TakeLast(5)
                     .Select(x => new CarModel
                     {
                         Id = x.Id,
@@ -50,11 +60,13 @@ namespace CarRental.Api.Controllers
             }
         }
 
-        public List<CarModel> Get(string name)
+        [HttpGet]
+        [Route("Car/Search")]
+        public List<CarModel> Search(string name)
         {
             using (var db = new CarRentalContext())
             {
-                return db.Cars.Where(x => x.CarName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                return db.Cars.Where(x => x.CarName.ToLower().Contains((name ?? string.Empty).ToLower()))
                     .Select(x => new CarModel
                     {
                         Id = x.Id,

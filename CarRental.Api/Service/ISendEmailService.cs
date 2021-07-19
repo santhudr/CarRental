@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarRental.Api.Service
 {
-    public class CarRentalService : ICarRentalService
+    public interface ISendEmailService
     {
+        public Task<List<(string, DateTime, bool)>> SendAlert();
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers
 {
-    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -18,10 +17,19 @@ namespace CarRental.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("Account/Register")]
         public string Register(UserModel user)
         {
-           var success = this.userService.Register(user);
-            return success ? "Registration Successful": "Registration Failed";
+            if (string.IsNullOrWhiteSpace(user.UserName) || string.IsNullOrWhiteSpace(user.Password))
+                return "Enter valid username or password";
+
+            if (!this.userService.UserAlreadyExist(user.UserName))
+            {
+                var success = this.userService.Register(user);
+                return success ? "Registration Successful" : "Registration Failed";
+            }
+
+            return "User already exist";
         }
     }
 }

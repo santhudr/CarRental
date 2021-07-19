@@ -13,8 +13,8 @@ namespace CarRental.Api.Service
             UserModel response = null;
             using (var db = new CarRentalContext())
             {
-                var user = db.Users.Where(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase)
-                && string.Equals(x.Password, password, StringComparison.InvariantCulture)).FirstOrDefault();
+                var user = db.Users.Where(x => x.UserName.ToLower() == username.ToLower()
+                && x.Password.ToLower() == password.ToLower()).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -23,6 +23,14 @@ namespace CarRental.Api.Service
             }
 
             return Task.FromResult(response);
+        }
+
+        public bool UserAlreadyExist(string name)
+        {
+            using (var db = new CarRentalContext())
+            {
+                return db.Users.Any(x => x.UserName.ToLower() == name);
+            }
         }
 
         public bool Register(UserModel user)
@@ -41,7 +49,7 @@ namespace CarRental.Api.Service
                     db.SaveChanges();
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }

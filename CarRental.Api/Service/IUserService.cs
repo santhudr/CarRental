@@ -7,5 +7,6 @@ namespace CarRental.Api.Service
     {
         Task<UserModel> Authenticate(string username, string password);
         bool Register(UserModel user);
+        bool UserAlreadyExist(string name);
     }
 }
