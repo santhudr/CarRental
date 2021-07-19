@@ -16,7 +16,7 @@ namespace CarRental.Api.Database
         public int CategoryId { get; set; }
         public string Manufacturer { get; set; }
         public string CarName { get; set; }
-        public string PricePerDay { get; set; }
+        public decimal PricePerDay { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual ICollection<Rental> Rentals { get; set; }

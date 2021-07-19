@@ -43,6 +43,11 @@ namespace CarRental.Api.Controllers
                 };
                 using (var db = new CarRentalContext())
                 {
+                    if (db.Rentals.Any(r => r.CarId == rental.CarId))
+                    {
+                        return "Car is already rented";
+                    }
+
                     db.Rentals.Add(rentalEntity);
                     db.SaveChanges();
                 }

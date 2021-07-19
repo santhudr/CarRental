@@ -29,10 +29,18 @@ namespace CarRental.Api.Service
                 foreach (var rental in expiringContracts)
                 {
                     var rentalExpiryDateTime = rental.RentalDateTime.AddDays(rental.NumberOfDays);
-                    var msg = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, string.Format(htmlContent, rental.User.UserName, rentalExpiryDateTime));
-                    var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
 
-                    alertList.Add((rental.User.UserName, rentalExpiryDateTime, response.IsSuccessStatusCode));
+                    try
+                    {
+                        var msg = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, string.Format(htmlContent, rental.User.UserName, rentalExpiryDateTime));
+                        var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
+                        alertList.Add((rental.User.UserName, rentalExpiryDateTime, response.IsSuccessStatusCode));
+                    }
+                    catch (Exception ex)
+                    {
+                        alertList.Add((rental.User.UserName, rentalExpiryDateTime, false));
+                    }
+
                 }
             }
 

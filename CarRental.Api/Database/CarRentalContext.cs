@@ -37,7 +37,7 @@ namespace CarRental.Api.Database
 
             modelBuilder.Entity<Car>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CarName)
                     .IsRequired()
@@ -63,7 +63,7 @@ namespace CarRental.Api.Database
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -75,7 +75,7 @@ namespace CarRental.Api.Database
             {
                 entity.ToTable("Rental");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RentalDateTime).HasColumnType("datetime");
 
@@ -94,7 +94,7 @@ namespace CarRental.Api.Database
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Password)
                     .IsRequired()
